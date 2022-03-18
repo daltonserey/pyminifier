@@ -76,15 +76,7 @@ from . import token_utils
 from . import obfuscate
 from . import compression
 
-py3 = False
-lzma = False
-if not isinstance(sys.version_info, tuple):
-    if sys.version_info.major == 3:
-        py3 = True
-        try:
-            import lzma
-        except ImportError:
-            pass
+import lzma
 
 # Regexes
 multiline_indicator = re.compile('\\\\(\s*#.*)?\n')
@@ -201,14 +193,9 @@ def pyminify(options, files):
             # Put together that will be used for all obfuscation functions:
             identifier_length = int(options.replacement_length)
             if options.use_nonlatin:
-                if sys.version_info[0] == 3:
-                    name_generator = obfuscate.obfuscation_machine(
-                        use_unicode=True, identifier_length=identifier_length
-                    )
-                else:
-                    print(
-                        "ERROR: You can't use nonlatin characters without Python 3")
-                    sys.exit(2)
+                name_generator = obfuscate.obfuscation_machine(
+                    use_unicode=True, identifier_length=identifier_length
+                )
             else:
                 name_generator = obfuscate.obfuscation_machine(
                     identifier_length=identifier_length)

@@ -672,12 +672,8 @@ def obfuscate(module, tokens, options, name_generator=None, table=None):
     if not name_generator:
         if options.use_nonlatin:
             ignore_length = True
-            if sys.version_info[0] == 3:
-                name_generator = obfuscation_machine(
-                    use_unicode=True, identifier_length=identifier_length)
-            else:
-                print(
-                    "ERROR: You can't use nonlatin characters without Python 3")
+            name_generator = obfuscation_machine(
+                use_unicode=True, identifier_length=identifier_length)
         else:
             name_generator = obfuscation_machine(
                 identifier_length=identifier_length)
@@ -761,9 +757,6 @@ if __name__ == "__main__":
     except:
         print("Usage: %s <filename.py>" % sys.argv[0])
         sys.exit(1)
-    if sys.version_info[0] == 3:
-        name_generator = obfuscation_machine(use_unicode=True)
-    else:
-        name_generator = obfuscation_machine(identifier_length=1)
+    name_generator = obfuscation_machine(use_unicode=True)
     source = apply_obfuscation(source)
     print(source)
